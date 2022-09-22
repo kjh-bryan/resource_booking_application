@@ -5,8 +5,93 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Login" Height="600" Width="800" FontFamily="Roboto Light" FontSize="15px" Foreground="White" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" >
+    <Window.Resources>
+        <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
+        <SolidColorBrush x:Key="brushWatermarkForeground" Color="Gray" />
+        <SolidColorBrush x:Key="brushWatermarkBorder" Color="#FFDF1919"/>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <local:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />
+
+        <Style x:Key="EntryFieldStyle" TargetType="Grid" >
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="300,0,300,80" />
+        </Style>
+
+
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="-1" ResizeBorderThickness="4" CaptionHeight="40"/>
+    </WindowChrome.WindowChrome>
+    <Window.Template>
+        <ControlTemplate>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Opacity of < 1.0 helps show the minimize, maximize and close buttons -->
+                <Border Grid.Row="0" Background="Red" Opacity="0.8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- System Menu -->
+                        <!--<Button Grid.Column="0"
+                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                Command="{x:Static SystemCommands.ShowSystemMenuCommand}"
+                                CommandParameter="{Binding ElementName=_MainWindow}">
+                            -->
+                        <!-- Make sure there is a resource with name Icon in MainWindow -->
+                        <!--
+                            <Image 
+                                Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Icon}"
+                                WindowChrome.IsHitTestVisibleInChrome="True"/>
+                        </Button>-->
+
+                        <!-- Window Title - Center Aligned -->
+                        <TextBlock 
+                            Grid.Column="1"
+                            TextAlignment="Center" 
+                            VerticalAlignment="Center"
+                            Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                    </Grid>
+                </Border>
+
+                <!-- This is the Window's main content area -->
+                <!-- Top margin 44 = WindowChrome ResizeBorderThickness (4) + CaptionHeight(40) -->
+                <!-- Bottom margin 1 is somewhat arbitrary -->
+                <Border Grid.Row="1" Background="White" Opacity="0.9">
+                    <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                </Border>
+            </Grid>
+        </ControlTemplate>
+    </Window.Template>
     <Grid>
-        
+        <Image x:Name="image" Height="150" Margin="0,0,0,300"  Width="200" Source="/Images/icon.png" />
+        <Grid Grid.Row="0" Background="{StaticResource brushWatermarkBackground}" Style="{StaticResource EntryFieldStyle}" >
+            <TextBlock Margin="5,2" Text="Email" Foreground="{StaticResource brushWatermarkForeground}" FontFamily="Roboto Light" FontSize="18" 
+                       Visibility="{Binding ElementName=emailTxt, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <TextBox  Name="emailTxt" FontFamily="Roboto Light" FontSize="20" Height="28" Background="Transparent" BorderBrush="{StaticResource brushWatermarkBorder}" BorderThickness="0 0 0 1" LostFocus="emailTxt_LostFocus"/>
+            <TextBlock Name="emailExc" Visibility="Hidden"  FontSize="20" Text="!" Foreground="{StaticResource brushWatermarkBorder}" TextWrapping="Wrap" Margin="180,0,0,0" />
+        </Grid>
+        <TextBlock Name="emailError" Visibility="Hidden" Padding="5"  Margin="500,0,0,80" FontSize="13" FontWeight="Bold" FontFamily="Roboto" Text="Email must not be empty &amp; valid email" Foreground="{StaticResource brushWatermarkBorder}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Width="301" />
+        <Grid Grid.Row="0" Background="{StaticResource brushWatermarkBackground}" Style="{StaticResource EntryFieldStyle}" Margin="300,50,300,0" >
+            <TextBlock Name="passwordHint" Margin="5,2" Text="Password" Foreground="{StaticResource brushWatermarkForeground}" FontFamily="Roboto Light" FontSize="18" />
+            <PasswordBox PasswordChar="*" Name="passTxt" FontFamily="Roboto Light" FontSize="20" Height="28" Background="Transparent" BorderBrush="{StaticResource brushWatermarkBorder}" BorderThickness="0 0 0 1" PasswordChanged="passTxt_PasswordChanged" LostFocus="passTxt_LostFocus" />
+            <TextBlock Name="passExc" Visibility="Hidden"  FontSize="20" Text="!" Foreground="{StaticResource brushWatermarkBorder}" TextWrapping="Wrap" Margin="180,0,0,0" />
+        </Grid>
+        <TextBlock Name="passError" Visibility="Hidden"   Padding="5"  Margin="500,40,0,0" FontSize="13" FontWeight="Bold" FontFamily="Roboto" Text="Password must not be empty &amp; more then 6 characters." Foreground="{StaticResource brushWatermarkBorder}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Width="301" />
+        <Button x:Name="btnLogin" Content="LOGIN"  Margin="0,250,0,0" Width="200" Height="35" FontFamily="Roboto" FontWeight="Bold" Background="#FFED2939" Foreground="White" BorderThickness="0" Style="{StaticResource RedButton}" Click="btnLogin_Click"/>
+        <TextBlock x:Name="textBlock"  FontSize="12px" Foreground="Black" HorizontalAlignment="Left" Margin="320,438,0,0" TextWrapping="Wrap" Text="New User?" VerticalAlignment="Top"/>
+        <Button x:Name="btnRegister" FontSize="12px" Content="Create an Account" HorizontalAlignment="Left" Margin="382,435,0,0" VerticalAlignment="Top"  Background="White" BorderBrush="White" Foreground="#FFED2939" Click="btnRegister_Click"/>
+
+
     </Grid>
 </Window>
