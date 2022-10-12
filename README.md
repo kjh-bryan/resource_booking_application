@@ -2,9 +2,9 @@
 
 About
 ----------------------
-Assignment Project for ST1011(Application Development)
-Singapore Polytechnic 
-Diploma in Information Technology
+Assignment Project for ST1011(Application Development)  
+Singapore Polytechnic  
+Diploma in Information Technology  
 
 Description
 ----------------------
